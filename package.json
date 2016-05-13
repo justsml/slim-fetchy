@@ -1,0 +1,15 @@
+{
+  "name": "fetchy",
+  "version": "1.0.0",
+  "description": "fetch json-enhanced api (ES6) - using isomorphic-fetch lib",
+  "main": "fetchify.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "author": "Dan Levy <Dan@DanLevy.net>",
+  "license": "MIT",
+  "dependencies": {
+    "es6-promise": "^3.2.1",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}
