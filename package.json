@@ -2,7 +2,7 @@
   "name": "fetchy",
   "version": "1.0.0",
   "description": "fetch json-enhanced api (ES6) - using isomorphic-fetch lib",
-  "main": "fetchify.js",
+  "main": "fetchy.js",
   "scripts": {
     "test": "node test/test.js"
   },
