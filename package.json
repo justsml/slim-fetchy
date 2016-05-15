@@ -1,6 +1,6 @@
 {
   "name": "slim-fetchy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "fetch json-enhanced api (ES6) - using isomorphic-fetch lib",
   "main": "index.js",
   "babel": {
