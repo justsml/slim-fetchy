@@ -1,3 +1,4 @@
+
 /**
  * Fetch API wrapper
  *
@@ -12,8 +13,8 @@
  *
  */
 
-import promiseEs6 from 'es6-promise'
-promiseEs6.polyfill();
+// import promiseEs6 from 'es6-promise'
+// promiseEs6.polyfill();
 
 import isoFetch from 'isomorphic-fetch';
 
@@ -23,8 +24,9 @@ export function fetch(url, {method = 'GET', headers = {}, contentType = 'json', 
     method = 'POST';//override default, assume post - not get
   }
   let defaultHeaders = {
-    'Accept':       'application/json,text/html,application/xhtml+xml,application/xml',
-    'Content-Type': contentType === 'json' ? 'application/json' : 'application/xhtml+xml'
+    'Accept':       'application/json,text/html,application/xhtml+xml,application/xml,text/plain',
+    'Content-Type': contentType === 'json' ? 'application/json' :
+                    contentType === 'text' ? 'text/plain' : 'application/xhtml+xml'
   };
   let payload = {
     'credentials':  session ? 'include' : null,
@@ -53,11 +55,15 @@ function checkStatus(response) {
 
 function parseJSON(response) {
   return Promise
-  .resolve(response.json())
+  .resolve(response.text())
   .then(data => {
+    console.warn('data #1: ', data);
+    data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
+    console.warn('data #2: ', data);
     return {
       'status':     response.status,
       'statusText': response.statusText,
+      'data':       data,
       'body':       data,
       'headers':    response.headers
     }
