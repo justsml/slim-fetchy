@@ -4,11 +4,11 @@ Enhanced `fetch` API.
 
 https://github.com/justsml/slim-fetchy.git
 
-* Simple HTTP request     :ballot_box_with_check:
-* Small                   :ballot_box_with_check:
-* Encode POST Body        :ballot_box_with_check:
-* Response parser         :ballot_box_with_check:
-* Smarter error handling  :ballot_box_with_check:
+* :ballot_box_with_check: Simple HTTP request
+* :ballot_box_with_check: Small
+* :ballot_box_with_check: Encode POST Body
+* :ballot_box_with_check: Response parser
+* :ballot_box_with_check: Smarter error handling
 
 ## Why?
 
