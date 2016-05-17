@@ -1,4 +1,4 @@
-# slim-fetchy
+# slim-fetchy 🚀
 
 Enhanced `fetch` API.
 
