@@ -16,19 +16,19 @@
 // import promiseEs6 from 'es6-promise'
 // promiseEs6.polyfill();
 
-import isoFetch from 'isomorphic-fetch';
+const isoFetch = require('isomorphic-fetch');
 
-export function fetch(url, {method = 'GET', headers = {}, contentType = 'json', session = true, body, data}) {
+exports.fetch = function fetch(url, {method = 'GET', headers = {}, contentType = 'json', session = true, body, data} = {}) {
   body =  body || data; // fallback for data param
   if (method === 'GET' && typeof body === 'object') {
     method = 'POST';//override default, assume post - not get
   }
-  let defaultHeaders = {
+  const defaultHeaders = {
     'Accept':       'application/json,text/html,application/xhtml+xml,application/xml,text/plain',
     'Content-Type': contentType === 'json' ? 'application/json' :
                     contentType === 'text' ? 'text/plain' : 'application/xhtml+xml'
   };
-  let payload = {
+  const payload = {
     'credentials':  session ? 'include' : null,
     'method':       method,
     'headers':      Object.assign(defaultHeaders, headers),
@@ -44,8 +44,9 @@ export function fetch(url, {method = 'GET', headers = {}, contentType = 'json', 
 }
 
 function checkStatus(response) {
+  if (!response) { return Promise.reject(new Error('Invalid or null response data.')); }
   if (response.status >= 200 && response.status < 300) {
-    return response
+    return response;
   } else {
     var error = new Error(response.statusText)
     error.response = response
@@ -60,7 +61,8 @@ function parseJSON(response) {
     try {
       data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
     } catch(ex) {
-      console.error('Slim-Fetchy: parseJSON Failed', ex);
+      console.error('Slim-Fetchy: parseJSON Failed', ex, response);
+      return Promise.reject(new Error('Failed to parse JSON.'));
     }
     return {
       'status':     response.status,

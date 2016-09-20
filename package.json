@@ -1,6 +1,6 @@
 {
   "name": "slim-fetchy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "fetch json-enhanced api (ES6) - using isomorphic-fetch lib",
   "main": "index.js",
   "babel": {
@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "test": "babel-node test/test.js | faucet",
+    "test": "node test/test.js",
     "testes6": "node  --harmony --harmony_modules --harmony_sloppy_function --harmony_sloppy_let --harmony_default_parameters --es_staging test/test.js",
     "start": "webpack --config webpack.config.js && uglifyjs --compress --mangle --screw-ie8 -o ./dist/slim-fetchy.min.js -- ./dist/slim-fetchy.js"
   },

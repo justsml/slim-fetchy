@@ -1,19 +1,21 @@
 'use strict';
 
-import test from 'tape';
+const test = require('tape');
 
-import {fetch} from '../index.js';
+const {fetch} = require('../index.js');
 
 var testUrl ='https://raw.githubusercontent.com/justsml/slim-fetchy/master/package.json';
 
 
 test('A passing test', (assert) => {
-  fetch(dummyUrl, {method: 'GET'})
-  .then(({body, headers, status, statusCode}) => {
-    console.warn('body', body);
-    assert.ok(body, 'Body must exist');
+  fetch(testUrl, {method: 'GET'})
+  .catch(err => console.error('Failed Req', err))
+  .then((results) => {
+    console.warn('body', results);
+    assert.ok(results, 'Body must exist');
+    assert.ok(results.data, 'Data must exist');
+    assert.end();
   })
-  assert.end();
 });
 
 // test('Assertions with tape.', (assert) => {

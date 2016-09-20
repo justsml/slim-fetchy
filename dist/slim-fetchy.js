@@ -116,7 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    // TODO: Transform body into a querystring on non-POST/PUT reqs
 	  }
-	  return (0, _isomorphicFetch2.default)(url, payload).then(checkStatus).then(parseJSON); // TODO: Handle non-JSON better
+	  return fetch(url, payload).then(checkStatus).then(parseJSON); // TODO: Handle non-JSON better
 	}
 
 	function checkStatus(response) {
