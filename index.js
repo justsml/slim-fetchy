@@ -40,7 +40,7 @@ export function fetch(url, {method = 'GET', headers = {}, contentType = 'json', 
   }
   return isoFetch(url, payload)
     .then(checkStatus)
-    .then(parseJSON); //TODO: Handle non-JSON better
+    .then(parseJSON); // TODO: Handle non-JSON better
 }
 
 function checkStatus(response) {
@@ -49,7 +49,7 @@ function checkStatus(response) {
   } else {
     var error = new Error(response.statusText)
     error.response = response
-    throw error
+    return Promise.reject(error);
   }
 }
 
@@ -57,9 +57,11 @@ function parseJSON(response) {
   return Promise
   .resolve(response.text())
   .then(data => {
-    console.warn('data #1: ', data);
-    data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
-    console.warn('data #2: ', data);
+    try {
+      data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
+    } catch(ex) {
+      console.error('Slim-Fetchy: parseJSON Failed', ex);
+    }
     return {
       'status':     response.status,
       'statusText': response.statusText,
