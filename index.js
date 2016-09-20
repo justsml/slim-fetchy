@@ -38,38 +38,39 @@ exports.fetch = function fetch(url, {method = 'GET', headers = {}, contentType =
   } else {
     // TODO: Transform body into a querystring on non-POST/PUT reqs
   }
+
+  function checkStatus(response) {
+    if (!response) { return Promise.reject(new Error('Invalid or null response data.')); }
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else {
+      var error = new Error(response.statusText)
+      error.response = response
+      return Promise.reject(error);
+    }
+  }
+
+  function parseJSON(response) {
+    return Promise
+    .resolve(response.text())
+    .then(data => {
+      try {
+        data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
+      } catch(ex) {
+        console.error('Slim-Fetchy: parseJSON Failed', ex, response);
+        return Promise.reject(new Error('Failed to parse JSON.'));
+      }
+      return {
+        'status':     response.status,
+        'statusText': response.statusText,
+        'data':       data,
+        'body':       data,
+        'headers':    response.headers
+      }
+    })
+  }
+
   return isoFetch(url, payload)
     .then(checkStatus)
     .then(parseJSON); // TODO: Handle non-JSON better
-}
-
-function checkStatus(response) {
-  if (!response) { return Promise.reject(new Error('Invalid or null response data.')); }
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    return Promise.reject(error);
-  }
-}
-
-function parseJSON(response) {
-  return Promise
-  .resolve(response.text())
-  .then(data => {
-    try {
-      data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
-    } catch(ex) {
-      console.error('Slim-Fetchy: parseJSON Failed', ex, response);
-      return Promise.reject(new Error('Failed to parse JSON.'));
-    }
-    return {
-      'status':     response.status,
-      'statusText': response.statusText,
-      'data':       data,
-      'body':       data,
-      'headers':    response.headers
-    }
-  })
 }
