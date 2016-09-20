@@ -46,7 +46,8 @@ exports.fetch = function fetch(url, {method = 'GET', headers = {}, contentType =
     } else {
       var error = new Error(response.statusText)
       error.response = response
-      return Promise.reject(error);
+      throw error;
+      // return Promise.reject(error);
     }
   }
 
