@@ -7,13 +7,14 @@ const {fetch} = require('../index.js');
 var testUrl ='https://raw.githubusercontent.com/justsml/slim-fetchy/master/package.json';
 
 
-test('A passing test', (assert) => {
+test('Can GET URL and parse JSON', (assert) => {
   fetch(testUrl, {method: 'GET'})
   .catch(err => console.error('Failed Req', err))
-  .then((results) => {
-    console.warn('body', results);
-    assert.ok(results, 'Body must exist');
-    assert.ok(results.data, 'Data must exist');
+  .then(({data}) => {
+    // console.warn('body', results);
+    assert.ok(data, 'Data must exist');
+    assert.equals(data.name, 'slim-fetchy', 'parsed json response payload');
+    assert.ok(data.scripts, 'has expected `scripts` node');
     assert.end();
   })
 });

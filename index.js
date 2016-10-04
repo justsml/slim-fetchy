@@ -46,8 +46,7 @@ exports.fetch = function fetch(url, {method = 'GET', headers = {}, contentType =
     } else {
       var error = new Error(response.statusText)
       error.response = response
-      throw error;
-      // return Promise.reject(error);
+      return Promise.reject(error)
     }
   }
 
@@ -56,7 +55,8 @@ exports.fetch = function fetch(url, {method = 'GET', headers = {}, contentType =
     .resolve(response.text())
     .then(data => {
       try {
-        data = ['{', '['].indexOf(data.trim()) >= 0 ? JSON.parse(data) : data;
+        let _tmp = JSON.parse(data);
+        data = _tmp;
       } catch(ex) {
         console.error('Slim-Fetchy: parseJSON Failed', ex, response);
         return Promise.reject(new Error('Failed to parse JSON.'));
